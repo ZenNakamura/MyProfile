@@ -1,0 +1,244 @@
+:root {
+  /* Nuansa Cyberpunk / Neon City */
+  --neon-pink: #ff0050;
+  --neon-cyan: #00f2fe;
+  --card-bg: rgba(10, 12, 20, 0.65); /* Warna kaca lebih gelap & kebiruan */
+  --card-border-top: rgba(255, 255, 255, 0.15);
+  --card-border-bottom: rgba(255, 255, 255, 0.05);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.65);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+/* ---- Menghilangkan Scrollbar Visual ---- */
+/* Untuk Chrome, Safari, dan Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Untuk IE, Edge, dan Firefox */
+html, body {
+  -ms-overflow-style: none;  /* IE dan Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 64px 20px 60px;
+  position: relative;
+}
+
+/* ---- Video Background Setup ---- */
+.bg-video {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.video-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  /* Warna overlay biru malam transparan agar senada dengan kota malam */
+  background: rgba(4, 5, 12, 0.45); 
+  backdrop-filter: blur(2px); /* Blur tipis agar tulisan lebih kontras */
+  -webkit-backdrop-filter: blur(2px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.page { 
+  width: 100%; 
+  max-width: 420px; 
+  position: relative; 
+  z-index: 1; 
+  perspective: 1000px; 
+}
+
+/* ---- Entrance Animation ---- */
+.animate-in {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Avatar (Neon Floating Effect) ---- */
+.avatar-wrap {
+  position: relative;
+  width: 128px; height: 128px;
+  margin: 0 auto 22px;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Cahaya di belakang avatar memadukan pink dan cyan */
+.glow {
+  position: absolute; inset: -20px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(0, 242, 254, 0.5), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(255, 0, 80, 0.5), transparent 60%);
+  filter: blur(12px);
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; transform: scale(0.95) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.05) rotate(10deg); }
+}
+.avatar {
+  position: relative;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  padding: 3px;
+  /* Border melingkar warna gradient neon */
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+}
+.avatar img {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 4px solid #0b0c10; /* Border gelap di antara neon dan foto */
+}
+
+/* ---- Typography ---- */
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin: 4px 0 4px;
+  color: #fff;
+  /* Efek teks bercahaya */
+  text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(0,242,254,0.4);
+}
+.role {
+  text-align: center; color: var(--muted);
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin: 0 0 24px;
+}
+.role .dot { color: var(--neon-pink); margin: 0 6px; }
+
+/* ---- Equalizer ---- */
+.now {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin: 0 0 34px;
+}
+.eq { display: flex; align-items: flex-end; gap: 3px; height: 14px; }
+.eq span {
+  width: 3px; border-radius: 2px;
+  animation: bounce 0.9s cubic-bezier(0.77, 0, 0.17, 1) infinite alternate;
+}
+/* Warna visualizer bergantian Cyan dan Pink */
+.eq span:nth-child(odd) { background: var(--neon-cyan); }
+.eq span:nth-child(even) { background: var(--neon-pink); }
+
+.eq span:nth-child(1) { animation-delay: 0s; }
+.eq span:nth-child(2) { animation-delay: 0.2s; }
+.eq span:nth-child(3) { animation-delay: 0.4s; }
+.eq span:nth-child(4) { animation-delay: 0.1s; }
+@keyframes bounce {
+  0% { height: 4px; }
+  100% { height: 14px; }
+}
+.now-text { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.now-text b { color: var(--text); font-weight: 600; }
+
+/* ---- Link Cards (Cyber-Glassmorphism) ---- */
+.links { display: flex; flex-direction: column; gap: 14px; }
+
+.link-card {
+  position: relative; display: flex; align-items: center; gap: 16px;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px); /* Blur lebih tinggi agar tulisan terbaca */
+  -webkit-backdrop-filter: blur(16px);
+  /* Efek tepian kaca yang kena cahaya dari atas/kiri */
+  border-top: 1px solid var(--card-border-top);
+  border-left: 1px solid var(--card-border-top);
+  border-right: 1px solid var(--card-border-bottom);
+  border-bottom: 1px solid var(--card-border-bottom);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  text-decoration: none; color: var(--text);
+  transform-style: preserve-3d;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.1s ease;
+}
+
+.link-card:active { transform: scale(0.96) !important; }
+
+.icon {
+  flex: 0 0 auto; width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: rgba(255,255,255,0.8);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-text { flex: 1; min-width: 0; transform: translateZ(20px); }
+.link-title { font-weight: 600; font-size: 15px; transition: color 0.3s ease; }
+.link-sub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.arrow {
+  flex: 0 0 auto; color: var(--muted); font-size: 18px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+}
+
+.link-card:hover { border-color: rgba(255, 255, 255, 0.3); }
+.link-card:hover .arrow { transform: translateX(6px); }
+.link-card:hover .icon { transform: scale(1.1); }
+
+/* ---- BRAND COLORS (Intense Neon Glow on Hover) ---- */
+
+/* Spotify */
+.brand-spotify:hover { border-color: #1DB954; box-shadow: 0 0 25px rgba(29, 185, 84, 0.3); }
+.brand-spotify:hover .icon { color: #1DB954; background: rgba(29, 185, 84, 0.15); }
+.brand-spotify:hover .arrow { color: #1DB954; background: transparent; }
+
+/* YouTube */
+.brand-youtube:hover { border-color: #FF0000; box-shadow: 0 0 25px rgba(255, 0, 0, 0.3); }
+.brand-youtube:hover .icon { color: #FF0000; background: rgba(255, 0, 0, 0.15); }
+.brand-youtube:hover .arrow { color: #FF0000; background: transparent; }
+
+/* GitHub */
+.brand-github:hover { border-color: #ffffff; box-shadow: 0 0 25px rgba(255, 255, 255, 0.2); }
+.brand-github:hover .icon { color: #ffffff; background: rgba(255, 255, 255, 0.15); }
+.brand-github:hover .arrow { color: #ffffff; background: transparent; }
+
+/* Instagram */
+.brand-ig:hover { border-color: #E1306C; box-shadow: 0 0 25px rgba(225, 48, 108, 0.3); }
+.brand-ig:hover .icon { color: #E1306C; background: rgba(225, 48, 108, 0.15); }
+.brand-ig:hover .arrow { color: #E1306C; background: transparent; }
+
+/* TikTok */
+.brand-tiktok:hover { border-color: var(--neon-cyan); box-shadow: 0 0 25px rgba(0, 242, 254, 0.25); }
+.brand-tiktok:hover .icon { color: #fff; background: rgba(255,255,255,0.1); text-shadow: 2px 2px 0px var(--neon-pink), -2px -2px 0px var(--neon-cyan); }
+.brand-tiktok:hover .arrow { color: var(--neon-cyan); background: transparent; }
+
+/* ---- Footer ---- */
+footer {
+  text-align: center; margin-top: 44px;
+  color: var(--muted); font-size: 11.5px; letter-spacing: 0.08em;
+}
+footer .dot-sep { color: var(--neon-cyan); margin: 0 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .animate-in { opacity: 1 !important; transform: none !important; }
+}
